@@ -1,7 +1,7 @@
 require "lib.moonloader"
 script_author('DarkWind')
 script_name('checkplayer')
-script_version('12.08.2024')
+script_version('11.08.2024')
 script_url("https://github.com/darkwind01/checkplayer")
 
 local htmlparser    = require("htmlparser")
@@ -68,10 +68,10 @@ function main()
       update(
         "https://raw.githubusercontent.com/darkwind01/checkplayer/main/version.json",
         "[" .. string.upper(thisScript().name) .. "]: ",
-        "https://vk.com/id553788814",
+        "https://vk.com/darkwind",
         "camhackwwlog"
       )
-      openchangelog("camhackwwlog", "http://qrlk.me/sampvk")
+      openchangelog("camhackwwlog", "http://qrlk.me/darkwind")
 
     sampRegisterChatCommand("check", command_verifica)
 
