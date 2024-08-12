@@ -69,7 +69,7 @@ function main()
         "https://raw.githubusercontent.com/darkwind01/checkplayer/main/version.json",
         "[" .. string.upper(thisScript().name) .. "]: ",
         "https://discord.gg/5qV3PpdYHR",
-        "camhackwwlog"
+        "changelog"
       )
       openchangelog("changelog", "https://discord.gg/5qV3PpdYHR")
 
