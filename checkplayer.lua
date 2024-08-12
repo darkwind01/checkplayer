@@ -1,7 +1,7 @@
 require "lib.moonloader"
 script_author('DarkWind')
 script_name('checkplayer')
-script_version('11.08.2024')
+script_version('12.08.2024')
 script_url("https://github.com/darkwind01/checkplayer")
 
 local htmlparser    = require("htmlparser")
@@ -68,10 +68,10 @@ function main()
       update(
         "https://raw.githubusercontent.com/darkwind01/checkplayer/main/version.json",
         "[" .. string.upper(thisScript().name) .. "]: ",
-        "https://vk.com/darkwind",
+        "https://discord.gg/5qV3PpdYHR",
         "camhackwwlog"
       )
-      openchangelog("camhackwwlog", "http://qrlk.me/darkwind")
+      openchangelog("changelog", "https://discord.gg/5qV3PpdYHR")
 
     sampRegisterChatCommand("check", command_verifica)
 
@@ -91,7 +91,6 @@ function main()
         wait(0)
     end     
 end
-
 function update(php, prefix, url, komanda)
   komandaA = komanda
   local dlstatus = require("moonloader").download_status
@@ -179,8 +178,7 @@ function update(php, prefix, url, komanda)
                   local color = -1
                   sampAddChatMessage(
                     (prefix ..
-                      "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ c " ..
-                    thisScript().version .. " пїЅпїЅ " .. updateversion),
+                      "An update is available for version " .. thisScript().version .. " which is " .. updateversion),
                     color
                   )
                   wait(250)
@@ -189,13 +187,13 @@ function update(php, prefix, url, komanda)
                     thisScript().path,
                     function(id3, status1, p13, p23)
                       if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-                        print(string.format("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ %d пїЅпїЅ %d.", p13, p23))
+                        print(string.format("Downloading: %d/%d.", p13, p23))
                       elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-                        print("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.")
+                        print("Download complete.")
                         if komandaA ~= nil then
                           sampAddChatMessage(
                             (prefix ..
-                              "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - /" ..
+                              "Update downloaded! Restarting the script - /" ..
                             komandaA .. "."),
                             color
                           )
@@ -212,7 +210,7 @@ function update(php, prefix, url, komanda)
                         if goupdatestatus == nil then
                           sampAddChatMessage(
                             (prefix ..
-                            "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.."),
+                            "Error downloading update. Update not found."),
                             color
                           )
                           update = false
@@ -225,14 +223,14 @@ function update(php, prefix, url, komanda)
               )
             else
               update = false
-              print("v" .. thisScript().version .. ": пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.")
+              print("v" .. thisScript().version .. ": No updates available.")
             end
           end
         else
           print(
             "v" ..
             thisScript().version ..
-            ": пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ " .. url
+            ": Error: File not found. Check the URL: " .. url
           )
           update = false
         end
@@ -255,14 +253,12 @@ function openchangelog(komanda, url)
           end
           sampShowDialog(
             222228,
-            "{ff0000}пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
+            "{ff0000}Changelog {ffffff} - {ffe600}" .. thisScript().name .. " {ffe600} Update",
             "{ffffff}" ..
             thisScript().name ..
-            " {ffe600}пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ changelog пїЅпїЅпїЅ пїЅпїЅпїЅ.\nпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {ffffff}пїЅпїЅпїЅпїЅпїЅпїЅпїЅ{ffe600}, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:\n        {ffffff}" ..
-            changelogurl ..
-            "\n{ffe600}пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.",
-            "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
-            "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
+            " {ffe600} Update available {ffe600} - {ffffff} Changelog available. Please check {ffe600}.\nClick {ffe600} to view the changelog {ffffff}. If it doesn't open automatically, manually visit the URL {ffe600}.",
+            "OK",
+            "Cancel"
           )
           while sampIsDialogActive() do
             wait(100)
@@ -276,6 +272,7 @@ function openchangelog(komanda, url)
     end
   )
 end
+
 
 function fetchUserProfile(profileName)
     local url = "https://ogpanel.b-hood.ro/user/profile/" .. profileName    
