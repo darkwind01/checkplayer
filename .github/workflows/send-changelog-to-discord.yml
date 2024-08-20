@@ -1,0 +1,21 @@
+name: Notify Discord on Changelog Update
+
+on:
+  push:
+    paths:
+      - 'changelog.md'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Send update to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep -q 'changelog.md'; then
+            curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"Changelog.md was updated!\"}" $DISCORD_WEBHOOK_URL
+          fi
