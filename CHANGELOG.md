@@ -5,8 +5,6 @@
 - Acum apare doar initiala factiunii in meniu (pentru ca era prea mare numele).
 - Adaugat Faction History (deoarece au intrat jucatorii in factiuni).
 - Adaugata iconita la timestamp-ul factiunii.
-
-### Changed
  
 ### Fixed
 - Rezolvate un bug ce facea sa nu afiseze corect clan-ul.
