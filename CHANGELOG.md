@@ -1,5 +1,11 @@
-# Change Log
-All notable changes to this project will be documented in this file.
+## [1.1.1] - 21/08/2024
+
+### Added
+- Acum factiunea este afisata corect in meniu.
+### Changed
+ 
+### Fixed
+- Rezolvate un bug ce facea sa nu afiseze corect clan-ul.1
 
 ## [1.1.0] - 20/08/2024
 
