@@ -6,6 +6,7 @@
  
 ### Fixed
 - Rezolvate un bug ce facea sa nu afiseze corect clan-ul.1
+- Rezolvat un modul ce nu se incarca corect si facea ca modul sa nu functioneze uneori.
 
 ## [1.1.0] - 20/08/2024
 
