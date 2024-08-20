@@ -14,7 +14,8 @@ jobs:
 
       - name: Get commit SHA
         id: get-sha
-        run: echo "CURRENT_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        run: |
+          echo "CURRENT_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Fetch previous commit
         id: fetch-prev
@@ -34,13 +35,13 @@ jobs:
         id: check_changelog
         run: |
           if echo "${{ env.CHANGED_FILES }}" | grep -q 'CHANGELOG.md'; then
-            echo "CHANGELOG.md was updated" >> $GITHUB_ENV
+            echo "CHANGELOG_MD_UPDATED=true" >> $GITHUB_ENV
           else
-            echo "CHANGELOG.md was not updated" >> $GITHUB_ENV
+            echo "CHANGELOG_MD_UPDATED=false" >> $GITHUB_ENV
           fi
 
       - name: Send update to Discord
-        if: ${{ env.CHANGED_FILES == 'CHANGELOG.md' }}
+        if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
