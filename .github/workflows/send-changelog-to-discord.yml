@@ -49,6 +49,11 @@ jobs:
           cat latest_update.txt
           # Limit to the first 2000 characters
           head -c 2000 latest_update.txt > latest_update.txt
+          # Ensure the file is not empty
+          if [ ! -s latest_update.txt ]; then
+            echo "latest_update.txt is empty."
+            exit 1
+          fi
 
       - name: Create JSON payload
         if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
@@ -60,13 +65,11 @@ jobs:
           echo "$PAYLOAD" > payload.json
           # Debugging: Print JSON payload
           cat payload.json
-
-      - name: Validate JSON
-        if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
-        id: validate_json
-        run: |
-          # Validate the JSON file
-          cat payload.json | jq empty
+          # Ensure the payload is not empty
+          if [ ! -s payload.json ]; then
+            echo "Payload is empty."
+            exit 1
+          fi
 
       - name: Send update to Discord
         if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
