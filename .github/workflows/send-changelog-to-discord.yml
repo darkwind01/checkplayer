@@ -3,7 +3,7 @@ name: Notify Discord on Changelog Update
 on:
   push:
     paths:
-      - 'CHANGELOG.MD'
+      - 'CHANGELOG.md'
 
 jobs:
   notify:
@@ -21,18 +21,18 @@ jobs:
           CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
           echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
 
-      - name: Check if CHANGELOG.MD was updated
+      - name: Check if CHANGELOG.md was updated
         id: check_changelog
         run: |
-          if echo "${{ env.CHANGED_FILES }}" | grep -q 'CHANGELOG.MD'; then
-            echo "CHANGELOG.MD was updated" >> $GITHUB_ENV
+          if echo "${{ env.CHANGED_FILES }}" | grep -q 'CHANGELOG.md'; then
+            echo "CHANGELOG.md was updated" >> $GITHUB_ENV
           else
-            echo "CHANGELOG.MD was not updated" >> $GITHUB_ENV
+            echo "CHANGELOG.md was not updated" >> $GITHUB_ENV
           fi
 
       - name: Send update to Discord
-        if: ${{ env.CHANGELOG_MDX_UPDATED == 'CHANGELOG.MD was updated' }}
+        if: ${{ env.CHANGELOG_MDX_UPDATED == 'CHANGELOG.md was updated' }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"CHANGELOG.MD was updated!\"}" $DISCORD_WEBHOOK
+          curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"CHANGELOG.md was updated!\"}" $DISCORD_WEBHOOK
