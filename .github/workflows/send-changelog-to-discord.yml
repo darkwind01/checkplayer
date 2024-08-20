@@ -12,13 +12,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Get commit SHA
+        id: get-sha
+        run: echo "CURRENT_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+      - name: Fetch previous commit
+        id: fetch-prev
+        run: |
+          git fetch --depth=2
+          echo "PREVIOUS_SHA=$(git rev-parse HEAD^)" >> $GITHUB_ENV
+
       - name: Get changed files
         id: get_changes
         run: |
-          echo "Changed files:"
-          git diff --name-only HEAD^ HEAD
-          # List changed files and save them in an output
-          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          git diff --name-only ${{ env.PREVIOUS_SHA }} ${{ env.CURRENT_SHA }} > changes.txt
+          cat changes.txt
+          CHANGED_FILES=$(cat changes.txt)
           echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
 
       - name: Check if CHANGELOG.md was updated
@@ -31,7 +40,7 @@ jobs:
           fi
 
       - name: Send update to Discord
-        if: ${{ env.CHANGELOG_MDX_UPDATED == 'CHANGELOG.md was updated' }}
+        if: ${{ env.CHANGED_FILES == 'CHANGELOG.md' }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
