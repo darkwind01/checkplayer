@@ -45,10 +45,9 @@ jobs:
         run: |
           # Extract the latest update section from CHANGELOG.md
           awk '/^## \[/{i++}i==1' CHANGELOG.md > latest_update.txt
-          # Read the extracted content into a variable
-          LATEST_UPDATE=$(cat latest_update.txt)
-          # Ensure we don't exceed Discord's message length limit
-          echo "LATEST_UPDATE=$(echo "$LATEST_UPDATE" | head -c 2000)" >> $GITHUB_ENV
+          # Extract the first 2000 characters (Discord limit) if necessary
+          LATEST_UPDATE=$(head -c 2000 latest_update.txt)
+          echo "$LATEST_UPDATE" > latest_update.json
 
       - name: Send update to Discord
         if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
@@ -56,6 +55,6 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           # Create a JSON payload with the extracted update
-          PAYLOAD=$(jq -n --arg content "$LATEST_UPDATE" '{content: $content}')
+          PAYLOAD=$(jq -R --arg content "$(cat latest_update.json)" '{content: $content}')
           # Send the payload to Discord
           curl -H "Content-Type: application/json" -X POST -d "$PAYLOAD" $DISCORD_WEBHOOK
