@@ -45,6 +45,8 @@ jobs:
         run: |
           # Extract the latest update section from CHANGELOG.md
           awk '/^## \[/{i++}i==1' CHANGELOG.md > latest_update.txt
+          # Debugging: Print extracted update
+          cat latest_update.txt
           # Limit to the first 2000 characters
           head -c 2000 latest_update.txt > latest_update.txt
 
@@ -56,7 +58,8 @@ jobs:
           CONTENT=$(cat latest_update.txt | sed 's/"/\\"/g')
           PAYLOAD=$(jq -n --arg content "$CONTENT" '{content: $content}')
           echo "$PAYLOAD" > payload.json
-          cat payload.json  # Debugging: Print payload to check its content
+          # Debugging: Print JSON payload
+          cat payload.json
 
       - name: Validate JSON
         if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
