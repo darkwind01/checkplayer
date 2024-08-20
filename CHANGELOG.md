@@ -5,7 +5,7 @@
 ### Changed
  
 ### Fixed
-- Rezolvate un bug ce facea sa nu afiseze corect clan-ul.
+- Rezolvate un bug ce facea sa nu afiseze corect clan-ul.1
 
 ## [1.1.0] - 20/08/2024
 
