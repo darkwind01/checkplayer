@@ -56,6 +56,7 @@ jobs:
           CONTENT=$(cat latest_update.txt | sed 's/"/\\"/g')
           PAYLOAD=$(jq -n --arg content "$CONTENT" '{content: $content}')
           echo "$PAYLOAD" > payload.json
+          cat payload.json  # Debugging: Print payload to check its content
 
       - name: Validate JSON
         if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
@@ -69,5 +70,10 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          # Send the JSON payload to Discord
-          curl -H "Content-Type: application/json" -X POST -d @payload.json $DISCORD_WEBHOOK
+          # Check if the payload is empty before sending
+          if [ -s payload.json ]; then
+            curl -H "Content-Type: application/json" -X POST -d @payload.json $DISCORD_WEBHOOK
+          else
+            echo "Payload is empty. Not sending to Discord."
+            exit 1
+          fi
