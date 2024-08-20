@@ -39,17 +39,16 @@ jobs:
             echo "CHANGELOG_MD_UPDATED=false" >> $GITHUB_ENV
           fi
 
-      - name: Get content of CHANGELOG.md
-        if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
-        id: get_content
-        run: |
-          cat CHANGELOG.md > changelog_content.txt
-          CHANGES_CONTENT=$(cat changelog_content.txt)
-          echo "CHANGES_CONTENT=$CHANGES_CONTENT" >> $GITHUB_ENV
-
       - name: Send update to Discord
         if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"CHANGELOG.md was updated!\n\n\`${{ env.CHANGES_CONTENT }}\`\"}" $DISCORD_WEBHOOK
+          # Read the content of CHANGELOG.md
+          CHANGES_CONTENT=$(cat CHANGELOG.md)
+          
+          # Create a JSON payload with the content
+          PAYLOAD=$(jq -n --arg content "CHANGELOG.md was updated!\n\n\`\`\`\n$CHANGES_CONTENT\n\`\`\`" '{content: $content}')
+
+          # Send the payload to Discord
+          curl -H "Content-Type: application/json" -X POST -d "$PAYLOAD" $DISCORD_WEBHOOK
