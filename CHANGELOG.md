@@ -5,7 +5,8 @@
 - Acum apare doar initiala factiunii in meniu (pentru ca era prea mare numele).
 - Adaugat Faction History (deoarece au intrat jucatorii in factiuni).
 - Adaugata iconita la timestamp-ul factiunii.
- 
+
 ### Fixed
 - Rezolvate un bug ce facea sa nu afiseze corect clan-ul.
 - Rezolvat un modul ce nu se incarca corect si facea ca modul sa nu functioneze uneori.
+- Acum se actualizeaza mod-ul corect, pana acum daca modul avea o versiune mai mare ca cea actuala spama update-ul.
