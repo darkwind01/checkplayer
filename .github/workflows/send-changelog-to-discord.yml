@@ -45,16 +45,29 @@ jobs:
         run: |
           # Extract the latest update section from CHANGELOG.md
           awk '/^## \[/{i++}i==1' CHANGELOG.md > latest_update.txt
-          # Extract the first 2000 characters (Discord limit) if necessary
-          LATEST_UPDATE=$(head -c 2000 latest_update.txt)
-          echo "$LATEST_UPDATE" > latest_update.json
+          # Limit to the first 2000 characters
+          head -c 2000 latest_update.txt > latest_update.txt
+
+      - name: Create JSON payload
+        if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
+        id: create_json
+        run: |
+          # Create a JSON payload with the extracted update
+          CONTENT=$(cat latest_update.txt | sed 's/"/\\"/g')
+          PAYLOAD=$(jq -n --arg content "$CONTENT" '{content: $content}')
+          echo "$PAYLOAD" > payload.json
+
+      - name: Validate JSON
+        if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
+        id: validate_json
+        run: |
+          # Validate the JSON file
+          cat payload.json | jq empty
 
       - name: Send update to Discord
         if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          # Create a JSON payload with the extracted update
-          PAYLOAD=$(jq -R --arg content "$(cat latest_update.json)" '{content: $content}')
-          # Send the payload to Discord
-          curl -H "Content-Type: application/json" -X POST -d "$PAYLOAD" $DISCORD_WEBHOOK
+          # Send the JSON payload to Discord
+          curl -H "Content-Type: application/json" -X POST -d @payload.json $DISCORD_WEBHOOK
