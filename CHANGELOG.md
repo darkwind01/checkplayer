@@ -11,5 +11,5 @@ All notable changes to this project will be documented in this file.
 ### Changed
  
 ### Fixed
-- Rezolvate un bug ce facea sa nu afiseze corect clan-ul.
+- Rezolvate un bug ce facea sa nu afiseze corect clan-ul.1
 - Rezolvat un modul ce nu se incarca corect si facea ca modul sa nu functioneze uneori.
