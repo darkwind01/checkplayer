@@ -44,11 +44,10 @@ jobs:
         id: extract_update
         run: |
           # Extract the latest update section from CHANGELOG.md
+          # The regex assumes sections start with "## " and capture only the latest one
           awk '/^## \[/{i++}i==1' CHANGELOG.md > latest_update.txt
-          # Debugging: Print extracted update
+          # Verify content of the extracted update
           cat latest_update.txt
-          # Limit to the first 2000 characters
-          head -c 2000 latest_update.txt > latest_update.txt
           # Ensure the file is not empty
           if [ ! -s latest_update.txt ]; then
             echo "latest_update.txt is empty."
