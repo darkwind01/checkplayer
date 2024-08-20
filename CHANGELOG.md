@@ -12,4 +12,4 @@ All notable changes to this project will be documented in this file.
  
 ### Fixed
 - Rezolvate un bug ce facea sa nu afiseze corect clan-ul.
-- Rezolvat un modul ce nu se incarca corect si facea ca modul sa nu functioneze uneori.
+- Rezolvat un modul ce nu se incarca corect si facea ca modul sa nu functioneze uneori.1
