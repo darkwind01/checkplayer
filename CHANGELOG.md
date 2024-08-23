@@ -1,3 +1,15 @@
+## [1.1.1] - 23/08/2024
+
+### Added
+- Acum daca player ul este pe sleep apare si in /check (pana acum aparea doar daca e online/offline).
+- Adaugat Faction Warns daca jucatorul are factiune.
+- Adaugat Faction Punish daca jucatorul are factiune.
+- Adaugat un mesaj in cazul in care nu este gasit jucatorul sau panel ul este picat si nu se pot lua informatii.
+
+### Fixed
+- Acum apare corect factiunea TTC in paragraful 'Faction', pana acum aparea tot text ul ce facea sa nu se incadreze in paragraf.
+- Scoase mai multe functii inutile ce ingreuna cod-ul.
+
 ## [1.1.0] - 20/08/2024
 
 ### Added
