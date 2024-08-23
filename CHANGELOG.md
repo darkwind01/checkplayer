@@ -3,7 +3,7 @@
 ### Added
 - Acum daca player ul este pe sleep apare si in /check (pana acum aparea doar daca e online/offline).
 - Adaugat Faction Warns daca jucatorul are factiune.
-- Adaugat Faction Punish daca jucatorul are factiune.
+- Adaugat Faction Punish daca jucatorul are factiune.1
 - Adaugat un mesaj in cazul in care nu este gasit jucatorul sau panel ul este picat si nu se pot lua informatii.
 
 ### Fixed
