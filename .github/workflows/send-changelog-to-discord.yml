@@ -11,24 +11,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2  # Ensure we fetch at least two commits to get the previous commit SHA
 
       - name: Get commit SHA
         id: get-sha
         run: echo "CURRENT_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
-      - name: Fetch previous commit
-        id: fetch-prev
+      - name: Get previous commit SHA
+        id: get-prev-sha
         run: |
-          git fetch --depth=2
-          echo "PREVIOUS_SHA=$(git rev-parse HEAD^)" >> $GITHUB_ENV
+          # Attempt to get the previous commit SHA
+          PREVIOUS_SHA=$(git rev-parse HEAD^ 2>/dev/null || echo "first_commit")
+          echo "PREVIOUS_SHA=$PREVIOUS_SHA" >> $GITHUB_ENV
 
       - name: Get changed files
         id: get_changes
         run: |
-          git diff --name-only ${{ env.PREVIOUS_SHA }} ${{ env.CURRENT_SHA }} | grep 'CHANGELOG.md' > changes.txt
-          cat changes.txt
-          CHANGED_FILES=$(cat changes.txt)
-          echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
+          if [ "${{ env.PREVIOUS_SHA }}" == "first_commit" ]; then
+            echo "No previous commit found or single commit; skipping changes check."
+            echo "CHANGED_FILES=CHANGELOG.md" >> $GITHUB_ENV
+          else
+            git diff --name-only ${{ env.PREVIOUS_SHA }} ${{ env.CURRENT_SHA }} > changes.txt
+            cat changes.txt
+            CHANGED_FILES=$(cat changes.txt)
+            echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
+          fi
 
       - name: Check if CHANGELOG.md was updated
         id: check_changelog
