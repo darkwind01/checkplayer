@@ -25,7 +25,7 @@ jobs:
       - name: Get changed files
         id: get_changes
         run: |
-          git diff --name-only ${{ env.PREVIOUS_SHA }} ${{ env.CURRENT_SHA }} > changes.txt
+          git diff --name-only ${{ env.PREVIOUS_SHA }} ${{ env.CURRENT_SHA }} | grep 'CHANGELOG.md' > changes.txt
           cat changes.txt
           CHANGED_FILES=$(cat changes.txt)
           echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
@@ -44,11 +44,8 @@ jobs:
         id: extract_update
         run: |
           # Extract the latest update section from CHANGELOG.md
-          # The regex assumes sections start with "## " and capture only the latest one
           awk '/^## \[/{i++}i==1' CHANGELOG.md > latest_update.txt
-          # Verify content of the extracted update
           cat latest_update.txt
-          # Ensure the file is not empty
           if [ ! -s latest_update.txt ]; then
             echo "latest_update.txt is empty."
             exit 1
@@ -58,13 +55,10 @@ jobs:
         if: ${{ env.CHANGELOG_MD_UPDATED == 'true' }}
         id: create_json
         run: |
-          # Create a JSON payload with the extracted update
           CONTENT=$(cat latest_update.txt | sed 's/"/\\"/g')
           PAYLOAD=$(jq -n --arg content "$CONTENT" '{content: $content}')
           echo "$PAYLOAD" > payload.json
-          # Debugging: Print JSON payload
           cat payload.json
-          # Ensure the payload is not empty
           if [ ! -s payload.json ]; then
             echo "Payload is empty."
             exit 1
@@ -75,7 +69,6 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          # Check if the payload is empty before sending
           if [ -s payload.json ]; then
             curl -H "Content-Type: application/json" -X POST -d @payload.json $DISCORD_WEBHOOK
           else
