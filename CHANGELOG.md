@@ -1,3 +1,11 @@
+## [1.1.2] - 29/08/2024
+
+### Fixed
+- Corectata logica de extragere a numelui clanului pentru a gestiona corect diferite formate, inclusiv nume care incep cu . sau []
+- Numele clanului este acum afisat corect in toate cazurile.
+- Numele jucatorilor prea lungi care nu incapeau sub skin apar acum corect.
+- Numele jucatorilor prea lungi sunt afisate corect acum in paragraful "Faction History", evitand afisarea eronata a informatiilor in acea categorie.
+
 ## [1.1.1] - 23/08/2024
 
 ### Added
