@@ -32,11 +32,10 @@ jobs:
             echo "No previous commit found or single commit; skipping changes check."
             echo "CHANGED_FILES=CHANGELOG.md" >> $GITHUB_ENV
           else
-            git diff --name-only ${{ env.PREVIOUS_SHA }} ${{ env.CURRENT_SHA }} > changes.txt
-            cat changes.txt
-            CHANGED_FILES=$(cat changes.txt)
+            CHANGED_FILES=$(git diff --name-only ${{ env.PREVIOUS_SHA }} ${{ env.CURRENT_SHA }} | tr '\n' ' ')
             echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
           fi
+
 
       - name: Check if CHANGELOG.md was updated
         id: check_changelog
