@@ -1,0 +1,33 @@
+name: Create Custom Zip
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_zip:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Create Custom Zip
+      run: |
+        # Creează un folder temporar pentru fișierele dorite
+        mkdir archive
+
+        # Copiază fișierul checkplayer.luac în folderul temporar
+        cp checkplayer.luac archive/
+
+        # Copiază folderul lib în folderul temporar
+        cp -r lib archive/
+
+        # Creează arhiva zip din folderul temporar
+        zip -r custom-archive.zip archive/
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: custom-archive
+        path: custom-archive.zip
