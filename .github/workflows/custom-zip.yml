@@ -12,19 +12,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Create Custom Zip
+    - name: Prepare Files
       run: |
         # Creează un folder temporar pentru fișierele dorite
-        mkdir temp
-
+        mkdir -p temp/lib
         # Mută fișierul checkplayer.luac în folderul temporar
-        mv checkplayer.luac temp/
-
+        cp checkplayer.luac temp/
         # Mută folderul lib în folderul temporar
-        mv lib temp/
+        cp -r lib temp/lib
 
-        # Creează arhiva zip cu conținutul folderului temporar
-        zip -r checkplayer.zip temp/*
+    - name: Create Custom Zip
+      run: |
+        # Creează arhiva zip cu fișierele dorite din folderul temporar
+        zip -r checkplayer.zip temp/* -i 'temp/checkplayer.luac' 'temp/lib/*'
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
