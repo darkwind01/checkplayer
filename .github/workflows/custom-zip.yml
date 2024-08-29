@@ -15,19 +15,19 @@ jobs:
     - name: Create Custom Zip
       run: |
         # Creează un folder temporar pentru fișierele dorite
-        mkdir archive
+        mkdir temp
 
-        # Copiază fișierul checkplayer.luac în folderul temporar
-        cp checkplayer.luac archive/
+        # Mută fișierul checkplayer.luac în folderul temporar
+        mv checkplayer.luac temp/
 
-        # Copiază folderul lib în folderul temporar
-        cp -r lib archive/
+        # Mută folderul lib în folderul temporar
+        mv lib temp/
 
-        # Creează arhiva zip din folderul temporar
-        zip -r custom-archive.zip archive/
+        # Creează arhiva zip cu conținutul folderului temporar
+        zip -r checkplayer.zip temp/*
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: custom-archive
-        path: custom-archive.zip
+        name: checkplayer
+        path: checkplayer.zip
