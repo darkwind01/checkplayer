@@ -1,3 +1,14 @@
+## [1.1.3] - 31/08/2024
+
+### Added
+- Adaugat un paragraf ce iti arata acum daca jucatorul este banat sau nu.
+
+### Fixed
+- Acum mod ul ar trebui sa incarce informatiile mai rapid.
+- Rescrise mai multe texte.
+- Mici optimizari la cod ul sursa.
+- Marita putin interfata in latime pentru o buna incadrare a textului 'banned by'.
+
 ## [1.1.2] - 29/08/2024
 
 ### Fixed
